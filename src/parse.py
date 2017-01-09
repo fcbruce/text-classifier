@@ -15,6 +15,8 @@ import jieba as jb
 
 pattern = re.compile(r'\s+')
 
+jb.load_userdict(user_dict_path)
+
 encode = 'utf-8'
 
 pos_file = codecs.open(pos_json, 'r', encode)

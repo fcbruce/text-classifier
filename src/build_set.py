@@ -35,8 +35,6 @@ def build_mat(count, file, label):
     id = 0
     for line in file.readlines():
         text = base64.b64decode(line).decode(encode).split()
-        if line[-1] != '\n': print id, text[-1]
-        if id > 32300 and text != []: print text[0], text[-1]
         for word in text:
             word = word.strip()
             if tokens.has_key(word):

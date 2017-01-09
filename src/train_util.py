@@ -16,25 +16,16 @@ def weight_variable(shape):
     return tf.Variable(initial)
 
 def get_train_batch(n):
-    n %= 100
+    n %= 10
 
-    pos = np.load(pos_mat_path)[n * 25: n * 25 + 25, :]
-    neg = np.load(neg_mat_path)[n * 300: n * 300 + 300, :]
-
-    res = np.vstack((pos, neg))
-
-    np.random.shuffle(res)
+    res = np.load(train_data)[n * 3171: n * 3171 + 3171, :]
 
     return res[:, :-1], res[:, -1:]
 
 
 def get_test_batch():
-    pos = np.load(pos_mat_path)
-    neg = np.load(neg_mat_path)
 
-    res = np.vstack((pos[-396:, :], neg[-2338:, :]))
-
-    np.random.shuffle(res)
+    res = np.load(test_data)
 
     return res[:, :-1], res[:, -1:]
 

@@ -27,12 +27,24 @@ words_path = os.path.join(data_dir, 'words.data')
 mat_path = os.path.join(data_dir, 'mat.data')
 mi_path = os.path.join(data_dir, 'mi.data')
 
+train_data = os.path.join(data_dir, 'train.data.npy')
+test_data = os.path.join(data_dir, 'test.data.npy')
+
+user_dict_path = os.path.join(data_dir, 'dict_extern.txt')
+
 token_path = os.path.join(data_dir, 'select_token_20161226.data')
 
-tf_model_path  = os.path.join(model_dir, 'tf/%s.ckpt')
+tf_model_path = os.path.join(model_dir, 'tf/%s.ckpt')
+bst_model_path = os.path.join(model_dir, 'xgb/%s.model')
 
 pos_count = 2896
 neg_count = 32338
 vec_length = 250
+
+test_pos_count = 290
+test_neg_count = 3234
+
+train_pos_count = pos_count - test_pos_count
+train_neg_count = neg_count - test_neg_count
 
 total_count = pos_count + neg_count

@@ -41,7 +41,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 sess = tf.InteractiveSession()
 saver = tf.train.Saver()
 
-saver.restore(sess, '../model/tf/2016-12-29 16:48:28.257796-10000.ckpt')
+saver.restore(sess, '../model/tf/2017-01-03 16:04:36.015493-10000.ckpt')
 
 test_batch = tu.get_test_batch()
 

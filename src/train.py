@@ -6,6 +6,7 @@
 #
 #
 
+import sklearn.metrics as skmt
 import tensorflow as tf
 import numpy as np
 import datetime
@@ -44,17 +45,31 @@ saver = tf.train.Saver()
 
 for i in range(0, 100001):
     train_batch = tu.get_train_batch(i)
-    if i % 20 == 0:
+    if i % 50 == 0:
+        y_true = train_batch[1]
         acc = accuracy.eval(feed_dict={
             x: train_batch[0], y_: train_batch[1], keep_prob: 1.0})
         los = loss.eval(feed_dict={
             x: train_batch[0], y_: train_batch[1], keep_prob: 1.0})
+        y_pred = pred.eval(feed_dict={
+            x: train_batch[0], keep_prob: 1.0})
+        recall = skmt.recall_score(y_true, y_pred)
+        precision = skmt.precision_score(y_true, y_pred)
+        f1 = skmt.f1_score(y_true, y_pred)
         print "step #%d: train accuracy %f, loss %f" % (i, acc, los)
-    if i % 50 == 0:
+        print "          recall %f, precision %f, f1 %f" % (recall, precision, f1)
+    if i % 100 == 0:
         test_batch = tu.get_test_batch()
+        y_true = test_batch[1]
         acc = accuracy.eval(feed_dict={
             x: test_batch[0], y_: test_batch[1], keep_prob: 1.0})
+        y_pred = pred.eval(feed_dict={
+            x: test_batch[0], keep_prob: 1.0})
+        recall = skmt.recall_score(y_true, y_pred)
+        precision = skmt.precision_score(y_true, y_pred)
+        f1 = skmt.f1_score(y_true, y_pred)
         print "step #%d: test accuracy %f" % (i, acc)
+        print "          recall %f, precision %f, f1 %f" % (recall, precision, f1)
 
     train_step.run(feed_dict={x: train_batch[0], y_: train_batch[1], keep_prob: 0.5})
 
