@@ -10,33 +10,31 @@ from config import *
 
 import json
 import pickle
-import codecs
+import codecs as cc
 import jieba as jb
+import base64
 
 encode = 'utf-8'
 
-words_file = codecs.open(words_path, 'r', encode)
+words_file = cc.open(words_path, 'r', encode)
 
-words = {word.strip(): [0, 0] for word in words_file.readlines()}
+words = {word.strip().encode(encode): [0, 0] for word in words_file.readlines()}
 
-
-pos_file = codecs.open(pos_json, 'r', encode)
-neg_file = codecs.open(neg_json, 'r', encode)
+pos_file = cc.open(pos_parsed_train, 'r', encode)
+neg_file = cc.open(neg_parsed_train, 'r', encode)
 
 for pos in pos_file.readlines():
-    obj = json.loads(pos)
-    ws = set(jb.cut(obj['data']))
+    ws = base64.b64decode(pos.strip()).split()
     for w in ws:
         w = w.strip()
-        if w != '':
+        if w != '' and w in words:
             words[w][0] += 1
 
 for neg in neg_file.readlines():
-    obj = json.loads(neg)
-    ws = set(jb.cut(obj['data']))
+    ws = base64.b64decode(neg.strip()).split()
     for w in ws:
         w = w.strip()
-        if w != '':
+        if w != '' and w in words:
             words[w][1] += 1
 
 f = open(mat_path, 'wb')

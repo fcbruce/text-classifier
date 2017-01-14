@@ -44,7 +44,9 @@ for word, counts in words.iteritems():
 word_mi.sort(key = lambda x: x[1])
 word_mi.reverse()
 
-mi_data = codecs.open(mi_path, 'w', encode)
+print word_mi[: 100]
+
+mi_data = codecs.open(mi_path, 'w')
 
 for word in word_mi:
     mi_data.write("%s,%f\n" % (word[0], word[1]))

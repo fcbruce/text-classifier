@@ -1,14 +1,25 @@
 # text-classifier
 
-使用结巴分词默认的字典分词  
-计算[互信息](https://zh.wikipedia.org/wiki/%E4%BA%92%E4%BF%A1%E6%81%AF)后挑选250个词作为feature  
-先使用tensorflow构造神经网络进行训练，因为数据量小加上欠采样，效果不理想  
-使用xgboost，有一定的区分力  
 
----
+2016/12/05之前有数据： 
+```
+db.msg_overdue.count({text: {$exists: true, $ne: ''}, max_overdue_days: {$exists: true, $gt: 2}})
+db.msg_overdue.count({text: {$exists: true, $ne: ''}, max_overdue_days: {$exists: true, $lt: 3}})
+```
+pos: 11049  
+neg: 43681  
+rate: 0.20188196601498265
 
-训练数据中positive sample占8%  
+------
 
+12/03 - 12/05: 用作测试
+```
+db.msg_overdue.count({text: {$exists: true, $ne: ''}, max_overdue_days: {$exists: true, $gt: 2}, creates_time: {$gte: 1480694400}})
+db.msg_overdue.count({text: {$exists: true, $ne: ''}, max_overdue_days: {$exists: true, $lt: 3}, creates_time: {$gte: 1480694400}})
+```
+pos: 763  
+neg: 2983  
+rate: 0.20368392952482647  
 
-#### TODO
-加入一些人工标注的特殊单词试验  
+### 算法策略
+先用special word hit，然后jieba分词，算互信息，然后train

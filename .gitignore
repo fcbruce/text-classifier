@@ -6,3 +6,4 @@ model/tf/
 model/xgb/
 data/*.txt
 .idea
+src/log*
