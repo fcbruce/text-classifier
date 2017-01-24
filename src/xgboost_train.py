@@ -24,29 +24,27 @@ d_test = xgb.DMatrix(test_mat[:, :-1], test_mat[:, -1])
 param = {
         'max_depth': 2, 
         'eta': 0.01, 
-        'gamma': 0.3, 
-        'lambda': 0.1, 
+        'gamma': 0.003, 
+        'lambda': 0.9, 
         'objective': 'binary:logistic', 
         'scale_pos_weight': 3.95,
-        'min_child_weight': 9,
-        'subsample': 0.5,
-        'colsample_bytree': 0.5,
+        'min_child_weight': 17,
+        'subsample': 0.40,
+        'colsample_bytree': 0.40,
         #'max_delta_step': 1,
         'show_stdv': False,
-        'seed': random.randint(0, 65536)
+        'seed': 2017
         }
-
-def auc(pred_score, d_mat):
-    y_true = d_mat.get_label()
-    y_pred = [float(x > 0.5) for x in pred_score]
-    auc = skmt.roc_auc_score(y_true, y_pred)
-    return 'auc', auc
 
 
 watchlist = [(d_train, 'train'), (d_test, 'test')]
-num_round = 4888
+num_round = 3000
 
-#cv = xgb.cv(param, d_train, num_round, feval=auc, maximize=False, verbose_eval=True, show_stdv=False)
+def auc(pred_score, d_mat):
+    y_true = d_mat.get_label()
+    return 'auc', skmt.roc_auc_score(y_true, pred_score)
+
+#cv = xgb.cv(param, d_train, num_round, metrics=['auc'], maximize=False, verbose_eval=True, show_stdv=False)
 
 bst = xgb.train(param, d_train, num_round, watchlist, feval=auc, maximize=False, verbose_eval=True)
 

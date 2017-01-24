@@ -30,7 +30,7 @@ def calc_overdue_rate(scores, y_true, threshold):
             kill += y_true[i]
 
     overdue_rate = 0
-    kill_overdue_rate = 1
+    kill_overdue_rate = None
     pass_rate = 0
 
     if total > 0:

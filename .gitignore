@@ -4,6 +4,7 @@ lib/3rd/jieba
 *.npy
 model/tf/
 model/xgb/
+model/svm/
 data/*.txt
 .idea
 src/log*

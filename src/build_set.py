@@ -40,7 +40,7 @@ def build_mat(count, file, label):
         for word in text:
             word = word.strip()
             if tokens.has_key(word):
-                mat[id][tokens[word]] = 1
+                mat[id][tokens[word]] += 1
         id += 1
 
     return mat

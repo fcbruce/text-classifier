@@ -31,15 +31,15 @@ words_path = os.path.join(data_dir, 'words.data')
 mat_path = os.path.join(data_dir, 'mat.data')
 mi_path = os.path.join(data_dir, 'mi.data')
 
-train_data_400 = os.path.join(data_dir, 'train.data.400.npy')
-test_data_400 = os.path.join(data_dir, 'test.data.400.npy')
-train_data = os.path.join(data_dir, 'train.data.500.npy')
-test_data = os.path.join(data_dir, 'test.data.500.npy')
+train_data = os.path.join(data_dir, 'train.data.400.npy')
+test_data = os.path.join(data_dir, 'test.data.400.npy')
+train_data_500 = os.path.join(data_dir, 'train.data.500.npy')
+test_data_500 = os.path.join(data_dir, 'test.data.500.npy')
 
 user_dict_path = os.path.join(data_dir, 'dict_extern.txt')
 def_dict_path = os.path.join('../lib/3rd/jieba/jieba', 'dict.txt')
 
-token_path = os.path.join(data_dir, 'select_token_20170119.data')
+token_path = os.path.join(data_dir, 'select_token_20170111.data')
 
 tf_model_path = os.path.join(model_dir, 'tf/%s.ckpt')
 bst_model_path = os.path.join(model_dir, 'xgb/%s.model')
@@ -47,7 +47,7 @@ svm_model_path = os.path.join(model_dir, 'svm/%s.model')
 
 pos_count = 11049
 neg_count = 43681
-vec_length = 500
+vec_length = 400
 
 test_pos_count = 763
 test_neg_count = 2983

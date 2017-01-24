@@ -24,14 +24,14 @@ pos_file = cc.open(pos_parsed_train, 'r', encode)
 neg_file = cc.open(neg_parsed_train, 'r', encode)
 
 for pos in pos_file.readlines():
-    ws = base64.b64decode(pos.strip()).split()
+    ws = set(base64.b64decode(pos.strip()).split())
     for w in ws:
         w = w.strip()
         if w != '' and w in words:
             words[w][0] += 1
 
 for neg in neg_file.readlines():
-    ws = base64.b64decode(neg.strip()).split()
+    ws = set(base64.b64decode(neg.strip()).split())
     for w in ws:
         w = w.strip()
         if w != '' and w in words:

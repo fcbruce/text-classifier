@@ -32,18 +32,19 @@ mongo = mc()
 db = mongo.Message
 msg_overdue = db.msg_overdue
 
-all_words = set(special_words)
+special_words_set = set(special_words)
+all_words = special_words_set.copy()
 
 def parse_group(documents, fout=None):
     print fout
     global all_words
     for doc in documents:
         str_text = doc['text']
-        words = set([special_words[item[1]] for item in acam.iter(str_text.encode(encode))])
-        jb_word = set([item.encode(encode) for item in jb.cut(str_text)])
+        words = [special_words[item[1]] for item in acam.iter(str_text.encode(encode))]
+        jb_word = [item.encode(encode) for item in jb.cut(str_text) if item.encode(encode) not in special_words_set]
 
-        all_words |= jb_word
-        words |= jb_word
+        all_words |= set(jb_word)
+        words = words + jb_word
 
         if not words: print doc['user_id']
 
