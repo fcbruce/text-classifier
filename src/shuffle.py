@@ -10,11 +10,17 @@ import numpy as np
 
 from config import *
 
-pos = np.load(pos_mat_path)
-neg = np.load(neg_mat_path)
+pos_train = np.load(pos_mat_train_path)
+pos_test = np.load(pos_mat_test_path)
+neg_train = np.load(neg_mat_train_path)
+neg_test = np.load(neg_mat_test_path)
 
-np.random.shuffle(pos)
-np.random.shuffle(neg)
 
-np.save(pos_mat_path, pos)
-np.save(neg_mat_path, neg)
+train = np.vstack((pos_train, neg_train))
+np.random.shuffle(train)
+test = np.vstack((pos_test, neg_test))
+np.random.shuffle(test)
+
+
+np.save(train_data, train)
+np.save(test_data, test)

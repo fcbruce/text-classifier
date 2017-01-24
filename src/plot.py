@@ -18,6 +18,7 @@ l_p = re.compile(r'\[(\d+?)\]\s+train-\w+:(\d*.*\d*?)\+*\d*.*\d*\s+test-\w+:(\d*
 
 train = []
 test = []
+gap = []
 iters = []
 
 f = open(fname, 'r')
@@ -26,8 +27,11 @@ for line in f.readlines():
     if res: 
         iter, train_value, test_value = res.groups()
         iters.append(int(iter))
-        train.append(float(train_value))
-        test.append(float(test_value))
+        train_value = float(train_value)
+        test_value = float(test_value)
+        train.append(train_value)
+        test.append(test_value)
+        gap.append(train_value - test_value)
 
 color = [random.random(), random.random(), random.random()]
 plt.plot(iters, train, color=color, label='train')

@@ -13,35 +13,39 @@ import datetime
 import random
 
 from config import *
-import train_util as tu
+from evaluation import calc_overdue_rate
 
 train_mat = np.load(train_data)
-
 test_mat = np.load(test_data)
 
 d_train = xgb.DMatrix(train_mat[:, :-1], train_mat[:, -1])
-d_test = xgb.DMatrix(test_mat[:, :-1], test_mat[:,-1])
+d_test = xgb.DMatrix(test_mat[:, :-1], test_mat[:, -1])
 
 param = {
-        'max_depth': 3, 
-        'eta': 0.03, 
-        'gamma': 1e-3, 
-        'lambda': 1.1, 
+        'max_depth': 2, 
+        'eta': 0.01, 
+        'gamma': 0.003, 
+        'lambda': 0.9, 
         'objective': 'binary:logistic', 
-        'scale_pos_weight': 11.15,
-        'min_child_weight': 1.15,
+        'scale_pos_weight': 3.95,
+        'min_child_weight': 17,
+        'subsample': 0.40,
+        'colsample_bytree': 0.40,
+        #'max_delta_step': 1,
         'show_stdv': False,
-        'seed': random.randint(0, 65536)
+        'seed': 2017
         }
+
+
+watchlist = [(d_train, 'train'), (d_test, 'test')]
+num_round = 3000
 
 def auc(pred_score, d_mat):
     y_true = d_mat.get_label()
-    y_pred = [float(x > 0.5) for x in pred_score]
-    auc = skmt.roc_auc_score(y_true, y_pred)
-    return 'auc', auc
+    return 'auc', skmt.roc_auc_score(y_true, pred_score)
 
-watchlist = [(d_train, 'train'), (d_test, 'test')]
-num_round = 850
+#cv = xgb.cv(param, d_train, num_round, metrics=['auc'], maximize=False, verbose_eval=True, show_stdv=False)
+
 bst = xgb.train(param, d_train, num_round, watchlist, feval=auc, maximize=False, verbose_eval=True)
 
 bst.save_model(bst_model_path % str(datetime.datetime.now()))

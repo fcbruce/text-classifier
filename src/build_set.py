@@ -15,8 +15,10 @@ import base64
 
 encode = 'utf-8'
 
-pos = cc.open(pos_parsed, 'r', encode)
-neg = cc.open(neg_parsed, 'r', encode)
+pos_train = cc.open(pos_parsed_train, 'r', encode)
+pos_test = cc.open(pos_parsed_test, 'r', encode)
+neg_train = cc.open(neg_parsed_train, 'r', encode)
+neg_test = cc.open(neg_parsed_test, 'r', encode)
 
 token = cc.open(token_path, 'r', encode)
 
@@ -38,16 +40,22 @@ def build_mat(count, file, label):
         for word in text:
             word = word.strip()
             if tokens.has_key(word):
-                mat[id][tokens[word]] = 1
+                mat[id][tokens[word]] += 1
         id += 1
 
     return mat
 
-pos_mat = build_mat(pos_count, pos, 1.)
-neg_mat = build_mat(neg_count, neg, 0.)
+pos_mat_train = build_mat(train_pos_count, pos_train, 1.)
+neg_mat_train = build_mat(train_neg_count, neg_train, 0.)
+pos_mat_test = build_mat(test_pos_count, pos_test, 1.)
+neg_mat_test = build_mat(test_neg_count, neg_test, 0.)
 
-np.save(pos_mat_path, pos_mat)
-np.save(neg_mat_path, neg_mat)
+np.save(pos_mat_train_path, pos_mat_train)
+np.save(pos_mat_test_path, pos_mat_test)
+np.save(neg_mat_train_path, neg_mat_train)
+np.save(neg_mat_test_path, neg_mat_test)
 
-pos.close()
-neg.close()
+pos_train.close()
+pos_test.close()
+neg_train.close()
+neg_test.close()
